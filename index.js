@@ -72,7 +72,17 @@ app.post("/login", async (req, res) => {
   }
 
   req.session.user = user; // Set the user in the session
-  res.redirect("/dashboard");
+  res.redirect("/");
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+      return res.send("Error logging out");
+    }
+    res.redirect("/login");
+  });
 });
 
 app.listen(port, () => {
